@@ -1,0 +1,181 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using MapGenerator;
+
+namespace DnDCrawl
+{
+  /// <summary>
+  /// This is the main type for your game.
+  /// </summary>
+  public class GameManager : Game
+  {
+
+    public enum GameState
+    {
+      Video,
+      MainMenu,
+      HighScore,
+      SinglePlayer,
+      Multiplayer,
+      Exiting
+    }
+
+    public static GameState CurrentGameState = GameState.MainMenu;
+    public static MouseState mouse;
+    public static KeyboardState keyboard;
+    public GraphicsDeviceManager graphics;
+    public SpriteBatch spriteBatch;
+
+    MainMenu mainmenu;
+    SinglePlayer singleplayer;
+    public Generator map_generator;
+
+
+    public Camera camera = new Camera( );
+
+    public GameManager()
+    {      
+
+      this.map_generator = new Generator( );
+
+      graphics = new GraphicsDeviceManager( this );
+      graphics.PreferredBackBufferWidth = Global_Settings.draw_width;
+      graphics.PreferredBackBufferHeight = Global_Settings.draw_height;
+
+      IsMouseVisible = true;
+
+      mainmenu = new MainMenu( this );
+
+      Content.RootDirectory = "Content";
+    }
+
+    protected override void Initialize()
+    {
+
+      this.spriteBatch = new SpriteBatch( this.GraphicsDevice );
+
+      base.Initialize( );
+    }
+
+    /// <summary>
+    /// LoadContent will be called once per game and is the place to load
+    /// all of your content.
+    /// </summary>
+    protected override void LoadContent()
+    {
+      // Create a new SpriteBatch, which can be used to draw textures.
+      spriteBatch = new SpriteBatch( GraphicsDevice );
+
+      this.map_generator.Content = this.Content;
+      this.map_generator.loadTextures( );
+      mainmenu.LoadContent( );
+
+      // TODO: use this.Content to load your game content here
+    }
+
+    /// <summary>
+    /// UnloadContent will be called once per game and is the place to unload
+    /// game-specific content.
+    /// </summary>
+    protected override void UnloadContent()
+    {
+      // TODO: Unload any non ContentManager content here
+    }
+
+    /// <summary>
+    /// Allows the game to run logic such as updating the world,
+    /// checking for collisions, gathering input, and playing audio.
+    /// </summary>
+    /// <param name="gameTime">Provides a snapshot of timing values.</param>
+    protected override void Update( GameTime gameTime )
+    {
+      mouse = Mouse.GetState( );
+      keyboard = Keyboard.GetState( );
+
+      if ( Keyboard.GetState( ).IsKeyDown( Keys.Escape ) )
+        Exit( );
+
+      switch ( CurrentGameState )
+      {
+        case GameState.Video:
+          //if (vidPlayer.State == MediaState.Stopped)
+          CurrentGameState = GameState.MainMenu;
+          break;
+        case GameState.MainMenu:
+
+          mainmenu.Update( gameTime );
+
+          break;
+        case GameState.SinglePlayer:
+          if ( singleplayer == null )
+          singleplayer = new SinglePlayer( this );
+
+          singleplayer.Update( );
+
+          break;
+     
+        case GameState.Exiting:
+          this.Exit( );
+          break;
+      }
+
+      if ( keyboard.IsKeyDown( Keys.Escape ) )
+      {
+        if ( CurrentGameState == GameState.MainMenu )
+          CurrentGameState = GameState.Exiting;
+        else
+        {
+
+        }
+      }
+      GraphicsDevice.Flush( );
+      base.Update( gameTime );
+    }
+
+    /// <summary>
+    /// This is called when the game should draw itself.
+    /// </summary>
+    /// <param name="gameTime">Provides a snapshot of timing values.</param>
+    protected override void Draw( GameTime gameTime )
+    {
+      GraphicsDevice.Clear( Color.Black );
+
+      switch ( CurrentGameState )
+      {
+        case GameState.Video:
+          //vidTexture = vidPlayer.GetTexture();
+          //spriteBatch.Begin();
+
+          //spriteBatch.Draw(vidTexture, vidRect, Color.White);
+
+          //spriteBatch.End();
+          break;
+        case GameState.MainMenu:
+          this.mainmenu.Draw( );
+          break;
+        case GameState.SinglePlayer:
+
+          if ( singleplayer == null )
+            singleplayer = new SinglePlayer( this );
+
+          singleplayer.Draw( gameTime );
+          
+          break;
+        case GameState.Multiplayer:
+       
+          break;
+        case GameState.HighScore:
+        
+          break;
+        case GameState.Exiting:
+
+          break;
+      }
+
+
+      base.Draw( gameTime );
+    }
+
+  }
+}

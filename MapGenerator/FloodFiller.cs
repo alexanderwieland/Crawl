@@ -15,7 +15,7 @@ namespace MapGenerator
     }
 
 
-    public void fill_with_gravel( TileMap map )
+    public void Fill_with_gravel( TileMap map )
     {
       //Fill everything with gravel
       for ( int i = 1; i < map.tiles.GetLength( 0 ); i++ )
@@ -24,22 +24,22 @@ namespace MapGenerator
         {
           if ( map.tiles[ i, j ].type == TILE_TYPE.NONE )
           {
-            map.tiles[ i, j ] = Tile.get_new_tile( TILE_TYPE.GRAVEL, i, j );
+            map.tiles[ i, j ] = Tile.Get_new_tile( TILE_TYPE.GRAVEL, i, j );
           }
         }
       }
     }
 
 
-    public void defill( TileMap map  )
+    public void Defill( TileMap map  )
     {
-      while ( this.get_next_3_empty( map ) )
+      while ( this.Get_next_3_empty( map ) )
       {
 
       }
     }
 
-    private bool get_next_3_empty( TileMap map )
+    private bool Get_next_3_empty( TileMap map )
     {
       bool i_ve_done_something = false;
       for ( int i = 0; i < map.tiles.GetLength( 0 ); i++ )
@@ -50,19 +50,19 @@ namespace MapGenerator
           {
             int empty_counter = 0;
 
-            if ( map.floodfill_is_down_free( map.tiles[ i, j ] ) )
+            if ( map.Is_down_free( map.tiles[ i, j ] ) )
             {
               empty_counter++;
             }
-            if ( map.floodfill_is_left_free( map.tiles[ i, j ] ) )
+            if ( map.Is_left_free( map.tiles[ i, j ] ) )
             {
               empty_counter++;
             }
-            if ( map.floodfill_is_right_free( map.tiles[ i, j ] ) )
+            if ( map.Is_right_free( map.tiles[ i, j ] ) )
             {
               empty_counter++;
             }
-            if ( map.floodfill_is_up_free( map.tiles[ i, j ] ) )
+            if ( map.Is_up_free( map.tiles[ i, j ] ) )
             {
               empty_counter++;
             }
@@ -70,7 +70,7 @@ namespace MapGenerator
             if ( empty_counter == 3 )
             {
               i_ve_done_something = true;
-              map.tiles[ i, j ].change_biom( TILE_TYPE.NONE );
+              map.tiles[ i, j ].Change_biom( TILE_TYPE.NONE );
             }
           }
         }
@@ -78,7 +78,7 @@ namespace MapGenerator
       return i_ve_done_something;
     }
 
-    public void init_flood_fill( TileMap map  )
+    public void Init_flood_fill( TileMap map  )
     {
       for ( int i = 0; i < map.tiles.GetLength( 0 ); i++ )
       {
@@ -86,20 +86,20 @@ namespace MapGenerator
         {
           if ( map.tiles[ i, j ].type == TILE_TYPE.NONE )
           {
-            floodfill( map, map.tiles[ i, j ] );
+            Floodfill( map, map.tiles[ i, j ] );
           }
         }
       }
     }
 
-    public void floodfill( TileMap map, Tile tile )
+    public void Floodfill( TileMap map, Tile tile )
     {
       Stack<Tile> tiles = new Stack<Tile>( );
 
       Stack<Tile> backtrack = new Stack<Tile>( );
 
       // 1
-      if ( tile.type != TILE_TYPE.NONE || !tile_is_valid( map,tile, Orientation.NONE ) )
+      if ( tile.type != TILE_TYPE.NONE || !Tile_is_valid( map,tile, Orientation.NONE ) )
       {
         return;
       }
@@ -115,7 +115,7 @@ namespace MapGenerator
           int x = (int)popped.X_Position;
           int y = (int)popped.Y_Position;
 
-          map.tiles[ x, y ].change_biom( TILE_TYPE.GRASS );
+          map.tiles[ x, y ].Change_biom( TILE_TYPE.GRASS );
 
           if ( tile.X_Position % 2 == 0 && tile.Y_Position % 2 == 0 )
           {
@@ -134,72 +134,72 @@ namespace MapGenerator
           switch ( Generator.rand.Next( 3 ) )
           {
             case 0:
-              if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+              if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
               {
                 tiles.Push( map.tiles[ x - 1, y ] );
               }
-              else if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+              else if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
               {
                 tiles.Push( map.tiles[ x, y - 1 ] );
               }
-              else if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+              else if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
               {
                 tiles.Push( map.tiles[ x, y + 1 ] );
               }
               break;
 
             case 1:
-              if ( map.floodfill_is_right_free( popped ) && tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
+              if ( map.Is_right_free( popped ) && Tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
               {
                 tiles.Push( map.tiles[ x + 1, y ] );
               }
-              else if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+              else if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
               {
                 tiles.Push( map.tiles[ x, y - 1 ] );
               }
-              else if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+              else if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
               {
                 tiles.Push( map.tiles[ x, y + 1 ] );
               }
-              else if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+              else if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
               {
                 tiles.Push( map.tiles[ x - 1, y ] );
               }
               break;
 
             case 2:
-              if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+              if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
               {
                 tiles.Push( map.tiles[ x, y - 1 ] );
               }
-              else if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+              else if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
               {
                 tiles.Push( map.tiles[ x, y + 1 ] );
               }
-              else if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+              else if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
               {
                 tiles.Push( map.tiles[ x - 1, y ] );
               }
-              else if ( map.floodfill_is_right_free( popped ) && tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
+              else if ( map.Is_right_free( popped ) && Tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
               {
                 tiles.Push( map.tiles[ x + 1, y ] );
               }
               break;
 
             case 3:
-              if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+              if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
               {
                 tiles.Push( map.tiles[ x, y + 1 ] );
               }
-              else if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+              else if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
               {
                 tiles.Push( map.tiles[ x - 1, y ] );
               }
-              else if ( map.floodfill_is_right_free( popped ) && tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
+              else if ( map.Is_right_free( popped ) && Tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
               {
                 tiles.Push( map.tiles[ x + 1, y ] );
               }
-              else if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+              else if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
               {
                 tiles.Push( map.tiles[ x, y - 1 ] );
               }
@@ -218,7 +218,7 @@ namespace MapGenerator
 
         if ( popped.type == TILE_TYPE.NONE )
         {
-          map.tiles[ x, y ].change_biom( TILE_TYPE.GRASS );
+          map.tiles[ x, y ].Change_biom( TILE_TYPE.GRASS );
           if ( tile.X_Position % 2 == 0 && tile.Y_Position % 2 == 0 )
           {
             backtrack.Push( popped );
@@ -228,76 +228,76 @@ namespace MapGenerator
         switch ( Generator.rand.Next( 3 ) )
         {
           case 0:
-            if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+            if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
             {
               backtrack.Push( map.tiles[ x - 1, y ] );
             }
-            else if ( map.floodfill_is_right_free( popped ) && tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
+            else if ( map.Is_right_free( popped ) && Tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
             {
               backtrack.Push( map.tiles[ x + 1, y ] );
             }
-            else if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+            else if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
             {
               backtrack.Push( map.tiles[ x, y - 1 ] );
             }
-            else if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+            else if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
             {
               backtrack.Push( map.tiles[ x, y + 1 ] );
             }
             break;
 
           case 1:
-            if ( map.floodfill_is_right_free( popped ) && tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
+            if ( map.Is_right_free( popped ) && Tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
             {
               backtrack.Push( map.tiles[ x + 1, y ] );
             }
-            else if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+            else if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
             {
               backtrack.Push( map.tiles[ x, y - 1 ] );
             }
-            else if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+            else if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
             {
               backtrack.Push( map.tiles[ x, y + 1 ] );
             }
-            else if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+            else if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
             {
               backtrack.Push( map.tiles[ x - 1, y ] );
             }
             break;
 
           case 2:
-            if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+            if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
             {
               backtrack.Push( map.tiles[ x, y - 1 ] );
             }
-            else if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+            else if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
             {
               backtrack.Push( map.tiles[ x, y + 1 ] );
             }
-            else if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+            else if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
             {
               backtrack.Push( map.tiles[ x - 1, y ] );
             }
-            else if ( map.floodfill_is_right_free( popped ) && tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
+            else if ( map.Is_right_free( popped ) && Tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
             {
               backtrack.Push( map.tiles[ x + 1, y ] );
             }
             break;
 
           case 3:
-            if ( map.floodfill_is_down_free( popped ) && tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
+            if ( map.Is_down_free( popped ) && Tile_is_valid( map,map.tiles[ x, y + 1 ], Orientation.UP ) )
             {
               backtrack.Push( map.tiles[ x, y + 1 ] );
             }
-            else if ( map.floodfill_is_left_free( popped ) && tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
+            else if ( map.Is_left_free( popped ) && Tile_is_valid( map,map.tiles[ x - 1, y ], Orientation.RIGHT ) )
             {
               backtrack.Push( map.tiles[ x - 1, y ] );
             }
-            else if ( map.floodfill_is_right_free( popped ) && tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
+            else if ( map.Is_right_free( popped ) && Tile_is_valid( map,map.tiles[ x + 1, y ], Orientation.LEFT ) )
             {
               backtrack.Push( map.tiles[ x + 1, y ] );
             }
-            else if ( map.floodfill_is_up_free( popped ) && tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
+            else if ( map.Is_up_free( popped ) && Tile_is_valid( map,map.tiles[ x, y - 1 ], Orientation.DOWN ) )
             {
               backtrack.Push( map.tiles[ x, y - 1 ] );
             }
@@ -309,36 +309,36 @@ namespace MapGenerator
     }
 
 
-    public bool tile_is_valid( TileMap map, Tile tile, Orientation or )
+    public bool Tile_is_valid( TileMap map, Tile tile, Orientation or )
     {
 
       if ( tile.X_Position % 2 == 1 && tile.Y_Position % 2 == 1 )
         return false;
 
-      if ( or != Orientation.LEFT && !map.floodfill_is_left_free( tile ) )
+      if ( or != Orientation.LEFT && !map.Is_left_free( tile ) )
         return false;
 
-      if ( or != Orientation.RIGHT && !map.floodfill_is_right_free( tile ) )
+      if ( or != Orientation.RIGHT && !map.Is_right_free( tile ) )
         return false;
 
-      if ( or != Orientation.UP && !map.floodfill_is_up_free( tile ) )
+      if ( or != Orientation.UP && !map.Is_up_free( tile ) )
         return false;
 
-      if ( or != Orientation.DOWN && !map.floodfill_is_down_free( tile ) )
+      if ( or != Orientation.DOWN && !map.Is_down_free( tile ) )
         return false;
 
 
 
-      if ( or != Orientation.DOWN && or != Orientation.LEFT && !map.floodfill_is_down_left_free( tile ) )
+      if ( or != Orientation.DOWN && or != Orientation.LEFT && !map.Is_down_left_free( tile ) )
         return false;
 
-      if ( or != Orientation.DOWN && or != Orientation.RIGHT && !map.floodfill_is_down_right_free( tile ) )
+      if ( or != Orientation.DOWN && or != Orientation.RIGHT && !map.Is_down_right_free( tile ) )
         return false;
 
-      if ( or != Orientation.UP && or != Orientation.LEFT && !map.floodfill_is_up_left_free( tile ) )
+      if ( or != Orientation.UP && or != Orientation.LEFT && !map.Is_up_left_free( tile ) )
         return false;
 
-      if ( or != Orientation.UP && or != Orientation.RIGHT && !map.floodfill_is_up_right_free( tile ) )
+      if ( or != Orientation.UP && or != Orientation.RIGHT && !map.Is_up_right_free( tile ) )
         return false;
 
       return true;

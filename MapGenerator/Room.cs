@@ -39,15 +39,15 @@ namespace MapGenerator
       this.Max_height = max_height;
       this.Max_width = max_width;
 
-      this.generate_room( );
+      this.Generate_room( );
     }
 
-    private void generate_room()
+    private void Generate_room()
     {
       room_map = new Tile[ Max_width, Max_height ];
 
       //generate_walls( );
-      generate_floor( );
+      Generate_floor( );
     }
 
     public void Draw( SpriteBatch spriteBatch, SpriteFont sf )
@@ -62,42 +62,42 @@ namespace MapGenerator
     }
 
 
-    private void generate_floor()
+    private void Generate_floor()
     {
       for ( int i = 1; i < Max_width - 1; i++ )
       {
         for ( int j = 1; j < Max_height - 1; j++ )
         {
           if ( Room_map[ i, j ] == null )
-            Room_map[ i, j ] = Tile.get_new_tile( TILE_TYPE.DIRT, i, j );
+            Room_map[ i, j ] = Tile.Get_new_tile( TILE_TYPE.DIRT, i, j );
         }
       }
     }
 
-    private void generate_walls()
+    private void Generate_walls()
     {
       // Generate upper wall
       for ( int i = 1; i < Max_width - 1; i++ )
       {
-        Room_map[ i, 1 ] = Tile.get_new_tile( TILE_TYPE.GRAVEL, i, 0 );
+        Room_map[ i, 1 ] = Tile.Get_new_tile( TILE_TYPE.GRAVEL, i, 0 );
       }
 
       // Generate lower wall
       for ( int i = 1; i < Max_width - 1; i++ )
       {
-        Room_map[ i, Max_height - 2 ] = Tile.get_new_tile( TILE_TYPE.GRAVEL, i, Max_height - 1 );
+        Room_map[ i, Max_height - 2 ] = Tile.Get_new_tile( TILE_TYPE.GRAVEL, i, Max_height - 1 );
       }
 
       // Generate left wall
       for ( int i = 1; i < Max_height - 1; i++ )
       {
-        Room_map[ 1, i ] = Tile.get_new_tile( TILE_TYPE.GRAVEL, 0, i );
+        Room_map[ 1, i ] = Tile.Get_new_tile( TILE_TYPE.GRAVEL, 0, i );
       }
 
       // Generate right wall
       for ( int i = 1; i < Max_height - 1; i++ )
       {
-        Room_map[ Max_width - 2, i ] = Tile.get_new_tile( TILE_TYPE.GRAVEL, Max_width - 1, i );
+        Room_map[ Max_width - 2, i ] = Tile.Get_new_tile( TILE_TYPE.GRAVEL, Max_width - 1, i );
       }
     }
   }

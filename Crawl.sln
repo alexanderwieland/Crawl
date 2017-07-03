@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDCrawl", "DnDCrawl\DnDCrawl.csproj", "{53E87A82-336A-4006-B6CC-09ABB4D9E92D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crawl", "DnDCrawl\Crawl.csproj", "{53E87A82-336A-4006-B6CC-09ABB4D9E92D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapGenerator", "MapGenerator\MapGenerator.csproj", "{EA482C41-64B4-4F59-9E24-76182DED4BED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saveable", "Saveable\Saveable.csproj", "{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,14 @@ Global
 		{EA482C41-64B4-4F59-9E24-76182DED4BED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA482C41-64B4-4F59-9E24-76182DED4BED}.Release|x86.ActiveCfg = Release|Any CPU
 		{EA482C41-64B4-4F59-9E24-76182DED4BED}.Release|x86.Build.0 = Release|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Debug|x86.Build.0 = Debug|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Release|x86.ActiveCfg = Release|Any CPU
+		{B0CDEE88-BD4E-4758-9AFD-ED0EFD3DBE50}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

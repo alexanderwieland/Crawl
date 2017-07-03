@@ -10,23 +10,24 @@ namespace DnDCrawl
     private GameManager gameManager;
     private TileMap dungeon_map;
 
+    private int old_zoom = 0;
+
     public SinglePlayer( GameManager gameManager )
     {
       
       this.gameManager = gameManager;
-      this.dungeon_map = gameManager.map_generator.get_new_dungeon_map( );
+      this.dungeon_map = gameManager.map_generator.Get_new_dungeon_map( );
 
     }
     
 
-    private void check_user_input()
+    private void Check_user_input()
     {
-
-      if ( GameManager.mouse.ScrollWheelValue > 0 )
+      if ( GameManager.mouse.ScrollWheelValue > old_zoom  )
       {
         gameManager.camera.Zoom += 0.05f;
       }
-      if ( GameManager.mouse.ScrollWheelValue < 0 )
+      if ( GameManager.mouse.ScrollWheelValue < old_zoom )
       {
         gameManager.camera.Zoom -= 0.05f;
       }
@@ -47,18 +48,19 @@ namespace DnDCrawl
         gameManager.camera.Move( new Vector2( 0f, 25f ) );
       }
 
+      old_zoom = GameManager.mouse.ScrollWheelValue;
     }
 
     public void Update( )
     {
-      check_user_input( );
+      Check_user_input( );
     }
 
     public void Draw( GameTime gameTime )
     {
       gameManager.GraphicsDevice.Clear( Color.Black );
 
-      gameManager.spriteBatch.Begin( SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, gameManager.camera.get_transformation( gameManager.GraphicsDevice ) );
+      gameManager.spriteBatch.Begin( SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, gameManager.camera.Get_transformation( gameManager.GraphicsDevice ) );
 
       dungeon_map.Draw( gameManager.spriteBatch );
 

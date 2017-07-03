@@ -217,3 +217,10 @@
 /processorParam:TextureFormat=Color
 /build:Map/Sand_out.png
 
+#begin Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial.spritefont
+

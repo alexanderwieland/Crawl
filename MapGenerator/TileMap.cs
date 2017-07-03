@@ -29,13 +29,13 @@ namespace MapGenerator
     }
 
 
-    public void add_rooms( int v )
+    public void Add_rooms( int v )
     {
       for ( int i = 0; i < v; i++ )
       {
         Room room = new Room( Generator.rand.Next( 2, 8 ) * 2 + 1, Generator.rand.Next( 2, 8 ) * 2 + 1 );
 
-        this.add_array( room.Room_map, new Vector2( Generator.rand.Next( 0, this.Width / 2 - 1 ) * 2 + 1, Generator.rand.Next( 0, this.Height / 2 - 1 ) * 2 + 1 ) );
+        this.Add_array( room.Room_map, new Vector2( Generator.rand.Next( 0, this.Width / 2 - 1 ) * 2 + 1, Generator.rand.Next( 0, this.Height / 2 - 1 ) * 2 + 1 ) );
       }
     }
 
@@ -51,7 +51,7 @@ namespace MapGenerator
       }
     }
 
-    public Tile search_for_tile( TILE_TYPE tile_type )
+    public Tile Search_for_tile( TILE_TYPE tile_type )
     {
       for ( int i = 0; i < this.tiles.GetLength( 0 ); i++ )
       {
@@ -67,7 +67,7 @@ namespace MapGenerator
       return null;
     }
 
-    public void fill_with_none()
+    public void Fill_with_none()
     {
       for ( int i = 0; i < this.tiles.GetLength( 0 ); i++ )
       {
@@ -75,14 +75,14 @@ namespace MapGenerator
         {
           if ( this.tiles[ i, j ] == null )
           {
-            this.tiles[ i, j ] = Tile.get_new_tile( TILE_TYPE.NONE, i, j );
+            this.tiles[ i, j ] = Tile.Get_new_tile( TILE_TYPE.NONE, i, j );
           }
         }
       }
     }
 
 
-    public bool is_left_tile_in_main_region( Tile tile )
+    public bool Is_left_tile_in_main_region( Tile tile )
     {
       if ( tile.X_Position - 1 > 0 && this.tiles[ tile.X_Position - 1, tile.Y_Position ].in_main_region )
       {
@@ -91,7 +91,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool is_right_tile_in_main_region( Tile tile )
+    public bool Is_right_tile_in_main_region( Tile tile )
     {
       if ( tile.X_Position + 1 < this.tiles.GetLength( 0 ) && this.tiles[ tile.X_Position + 1, tile.Y_Position ].in_main_region )
       {
@@ -100,7 +100,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool is_up_tile_in_main_region( Tile tile )
+    public bool Is_up_tile_in_main_region( Tile tile )
     {
       if ( tile.Y_Position - 1 > 0 && this.tiles[ tile.X_Position, tile.Y_Position - 1 ].in_main_region )
       {
@@ -109,7 +109,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool is_down_tile_in_main_region( Tile tile )
+    public bool Is_down_tile_in_main_region( Tile tile )
     {
       if ( tile.Y_Position + 1 < this.tiles.GetLength( 1 ) && this.tiles[ tile.X_Position, tile.Y_Position + 1 ].in_main_region )
       {
@@ -118,7 +118,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool is_left_tile_of_type( Tile tile, TILE_TYPE type )
+    public bool Is_left_tile_of_type( Tile tile, TILE_TYPE type )
     {
       if ( tile.X_Position - 1 > 0 && this.tiles[ tile.X_Position - 1, tile.Y_Position ].type == type )
       {
@@ -127,7 +127,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool is_right_tile_of_type( Tile tile, TILE_TYPE type )
+    public bool Is_right_tile_of_type( Tile tile, TILE_TYPE type )
     {
       if ( tile.X_Position + 1 < this.tiles.GetLength( 0 ) && this.tiles[ tile.X_Position + 1, tile.Y_Position ].type == type )
       {
@@ -136,7 +136,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool is_up_tile_of_type( Tile tile, TILE_TYPE type )
+    public bool Is_up_tile_of_type( Tile tile, TILE_TYPE type )
     {
       if ( tile.Y_Position - 1 > 0 && this.tiles[ tile.X_Position, tile.Y_Position - 1 ].type == type )
       {
@@ -145,7 +145,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool is_down_tile_of_type( Tile tile, TILE_TYPE type )
+    public bool Is_down_tile_of_type( Tile tile, TILE_TYPE type )
     {
       if ( tile.Y_Position + 1 < this.tiles.GetLength( 1 ) && this.tiles[ tile.X_Position, tile.Y_Position + 1 ].type == type )
       {
@@ -154,7 +154,7 @@ namespace MapGenerator
       return false;
     }
 
-    public Tile search_for_tile_without_main_region( TILE_TYPE tile_type )
+    public Tile Search_for_tile_without_main_region( TILE_TYPE tile_type )
     {
       for ( int i = 0; i < this.tiles.GetLength( 0 ); i++ )
       {
@@ -171,7 +171,7 @@ namespace MapGenerator
     }
 
 
-    public Tile search_for_tile_without_main_region_from_pos( TILE_TYPE tile_type, Tile from_tile )
+    public Tile Search_for_tile_without_main_region_from_pos( TILE_TYPE tile_type, Tile from_tile )
     {
       int x = 0;
       int y = 0;
@@ -196,7 +196,7 @@ namespace MapGenerator
     }
 
 
-    internal void add_array( Tile[,] map_to_add, Vector2 startpos )
+    internal void Add_array( Tile[,] map_to_add, Vector2 startpos )
     {
       //check if array has enough space
       for ( int i = 0; i < map_to_add.GetLength( 0 ); i++ )
@@ -228,7 +228,7 @@ namespace MapGenerator
       }
     }
 
-    public bool is_within( int starta, int end, int value )
+    public bool Is_within( int starta, int end, int value )
     {
       if ( value >= starta && value <= end )
       {
@@ -238,7 +238,7 @@ namespace MapGenerator
     }
 
 
-    public bool floodfill_is_left_free( Tile tile )
+    public bool Is_left_free( Tile tile )
     {
       if ( tile.X_Position - 1 > 0 && this.tiles[ tile.X_Position - 1, tile.Y_Position ].type == TILE_TYPE.NONE )
       {
@@ -246,7 +246,7 @@ namespace MapGenerator
       }
       return false;
     }
-    public bool floodfill_is_right_free( Tile tile )
+    public bool Is_right_free( Tile tile )
     {
       if ( tile.X_Position + 1 < this.tiles.GetLength( 0 ) && this.tiles[ tile.X_Position + 1, tile.Y_Position ].type == TILE_TYPE.NONE )
       {
@@ -254,7 +254,7 @@ namespace MapGenerator
       }
       return false;
     }
-    public bool floodfill_is_up_free( Tile tile )
+    public bool Is_up_free( Tile tile )
     {
       if ( tile.Y_Position - 1 > 0 && this.tiles[ tile.X_Position, tile.Y_Position - 1 ].type == TILE_TYPE.NONE )
       {
@@ -262,7 +262,7 @@ namespace MapGenerator
       }
       return false;
     }
-    public bool floodfill_is_down_free( Tile tile )
+    public bool Is_down_free( Tile tile )
     {
       if ( tile.Y_Position + 1 < this.tiles.GetLength( 1 ) && this.tiles[ tile.X_Position, tile.Y_Position + 1 ].type == TILE_TYPE.NONE )
       {
@@ -270,7 +270,7 @@ namespace MapGenerator
       }
       return false;
     }
-    public bool floodfill_is_up_left_free( Tile tile )
+    public bool Is_up_left_free( Tile tile )
     {
       if ( tile.Y_Position - 1 > 0 && tile.X_Position - 1 > 0 && this.tiles[ tile.X_Position - 1, tile.Y_Position - 1 ].type == TILE_TYPE.NONE )
       {
@@ -278,7 +278,7 @@ namespace MapGenerator
       }
       return false;
     }
-    public bool floodfill_is_up_right_free( Tile tile )
+    public bool Is_up_right_free( Tile tile )
     {
       if ( tile.Y_Position - 1 > 0 && tile.X_Position + 1 < this.tiles.GetLength( 0 ) && this.tiles[ tile.X_Position + 1, tile.Y_Position - 1 ].type == TILE_TYPE.NONE )
       {
@@ -286,7 +286,7 @@ namespace MapGenerator
       }
       return false;
     }
-    public bool floodfill_is_down_right_free( Tile tile )
+    public bool Is_down_right_free( Tile tile )
     {
       if ( tile.Y_Position + 1 < this.tiles.GetLength( 1 ) && tile.X_Position + 1 < this.tiles.GetLength( 0 ) && this.tiles[ tile.X_Position + 1, tile.Y_Position + 1 ].type == TILE_TYPE.NONE )
       {
@@ -295,7 +295,7 @@ namespace MapGenerator
       return false;
     }
 
-    public bool floodfill_is_down_left_free( Tile tile )
+    public bool Is_down_left_free( Tile tile )
     {
       if ( tile.Y_Position + 1 < this.tiles.GetLength( 1 ) && tile.X_Position - 1 > 0 && this.tiles[ tile.X_Position - 1, tile.Y_Position + 1 ].type == TILE_TYPE.NONE )
       {

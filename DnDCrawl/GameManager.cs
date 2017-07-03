@@ -39,10 +39,11 @@ namespace DnDCrawl
 
       this.map_generator = new Generator( );
 
-      graphics = new GraphicsDeviceManager( this );
-      graphics.PreferredBackBufferWidth = Global_Settings.draw_width;
-      graphics.PreferredBackBufferHeight = Global_Settings.draw_height;
-
+      graphics = new GraphicsDeviceManager( this )
+      {
+        PreferredBackBufferWidth = Global_Settings.draw_width,
+        PreferredBackBufferHeight = Global_Settings.draw_height
+      };
       IsMouseVisible = true;
 
       mainmenu = new MainMenu( this );
@@ -57,37 +58,24 @@ namespace DnDCrawl
 
       base.Initialize( );
     }
-
-    /// <summary>
-    /// LoadContent will be called once per game and is the place to load
-    /// all of your content.
-    /// </summary>
+    
     protected override void LoadContent()
     {
       // Create a new SpriteBatch, which can be used to draw textures.
       spriteBatch = new SpriteBatch( GraphicsDevice );
 
       this.map_generator.Content = this.Content;
-      this.map_generator.loadTextures( );
+      this.map_generator.LoadTextures( );
       mainmenu.LoadContent( );
 
       // TODO: use this.Content to load your game content here
     }
-
-    /// <summary>
-    /// UnloadContent will be called once per game and is the place to unload
-    /// game-specific content.
-    /// </summary>
+    
     protected override void UnloadContent()
     {
       // TODO: Unload any non ContentManager content here
     }
-
-    /// <summary>
-    /// Allows the game to run logic such as updating the world,
-    /// checking for collisions, gathering input, and playing audio.
-    /// </summary>
-    /// <param name="gameTime">Provides a snapshot of timing values.</param>
+    
     protected override void Update( GameTime gameTime )
     {
       mouse = Mouse.GetState( );
@@ -132,11 +120,7 @@ namespace DnDCrawl
       GraphicsDevice.Flush( );
       base.Update( gameTime );
     }
-
-    /// <summary>
-    /// This is called when the game should draw itself.
-    /// </summary>
-    /// <param name="gameTime">Provides a snapshot of timing values.</param>
+    
     protected override void Draw( GameTime gameTime )
     {
       GraphicsDevice.Clear( Color.Black );

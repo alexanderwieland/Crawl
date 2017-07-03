@@ -67,15 +67,15 @@ namespace MapGenerator
       roomconnector = new RoomConnector( );
     }
 
-    public TileMap get_new_dungeon_map( )
+    public TileMap Get_new_dungeon_map( )
     {
       TileMap map = new TileMap( 150, 100 );
 
-      map.add_rooms( 500 );
-      map.fill_with_none( );
-      floodfiller.init_flood_fill( map );
-      roomconnector.connect( map );
-      floodfiller.defill( map );
+      map.Add_rooms( 500 );
+      map.Fill_with_none( );
+      floodfiller.Init_flood_fill( map );
+      roomconnector.Connect( map );
+      floodfiller.Defill( map );
 
       return map;
     }
@@ -92,7 +92,7 @@ namespace MapGenerator
     }
 
 
-    public void loadTextures()
+    public void LoadTextures()
     {
       AddTextureType( TILE_TYPE.DIRT );
       AddTextureType( TILE_TYPE.GRASS );

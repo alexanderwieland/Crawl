@@ -12,17 +12,16 @@ namespace DnDCrawl
 {
   class MainMenu
   {
-
-    MenuButton buttonSP;
-    MenuButton buttonMP;
-    MenuButton buttonHS;
-    MenuButton buttonEX;
+    MenuText TextSP;
+    MenuText TextMP;
+    MenuText TextHS;
+    MenuText TextEX;
 
     Texture2D menubackground;
     Rectangle menurec;
-    Texture2D title;
-    Rectangle titlerec;
-    Texture2D hsbackground;
+    MenuText title;
+    
+    SpriteFont mainmenu_font;
 
     GameManager game;
 
@@ -33,22 +32,24 @@ namespace DnDCrawl
 
     public void LoadContent( )
     {
-      buttonSP = new MenuButton( game.Content.Load<Texture2D>( "MainMenu/SPButton" ), game.graphics.GraphicsDevice );
-      buttonMP = new MenuButton( game.Content.Load<Texture2D>( "MainMenu/MPButton" ), game.graphics.GraphicsDevice );
-      buttonHS = new MenuButton( game.Content.Load<Texture2D>( "MainMenu/HSButton" ), game.graphics.GraphicsDevice );
-      buttonEX = new MenuButton( game.Content.Load<Texture2D>( "MainMenu/EXButton" ), game.graphics.GraphicsDevice );
+      mainmenu_font = game.Content.Load<SpriteFont>( "Arial" );
 
-      buttonSP.SetPosition( new Vector2( 60, 120 ) );
-      buttonMP.SetPosition( new Vector2( 60, 180 ) );
-      buttonHS.SetPosition( new Vector2( 60, 240 ) );
-      buttonEX.SetPosition( new Vector2( 60, 300 ) );
+      TextSP = new MenuText( "Single Player", mainmenu_font, game.graphics.GraphicsDevice );
+      TextMP = new MenuText( "Multi Player", mainmenu_font, game.graphics.GraphicsDevice );
+      TextHS = new MenuText( "Highscore", mainmenu_font, game.graphics.GraphicsDevice );
+      TextEX = new MenuText( "Exit", mainmenu_font, game.graphics.GraphicsDevice );
+      title = new MenuText( "Crawl", mainmenu_font, game.graphics.GraphicsDevice );
+
+      title.SetPosition( new Vector2( 60, 40 ) );
+      TextSP.SetPosition( new Vector2( 60, 120 ) );
+      TextMP.SetPosition( new Vector2( 60, 180 ) );
+      TextHS.SetPosition( new Vector2( 60, 240 ) );
+      TextEX.SetPosition( new Vector2( 60, 300 ) );
+      
 
       menubackground = game.Content.Load<Texture2D>( "MainMenu/MenuBG" );
       menurec = new Rectangle( 0, 0, Global_Settings.draw_width, Global_Settings.draw_height );
-
-      title = game.Content.Load<Texture2D>( "MainMenu/Ueberschrift" );
-      titlerec = new Rectangle( 60, 20, title.Width, title.Height );
-      
+            
 
       //spPlayer = new Player(Content, SignedInGamer.SignedInGamers[0].DisplayName);
       //spPlayer = new Player(Content, "Philo");
@@ -61,25 +62,21 @@ namespace DnDCrawl
     }
 
     internal void Update( GameTime gameTime )
-    {
-
-      
-      if ( buttonSP.isClicked == true )
+    {            
+      if ( TextSP.isClicked == true )
       {
         GameManager.CurrentGameState = GameManager.GameState.SinglePlayer;
         game.graphics.ApplyChanges( );
       }
 
-      if ( buttonEX.isClicked == true )
+      if ( TextEX.isClicked == true )
         GameManager.CurrentGameState = GameManager.GameState.Exiting;
-
-
-      buttonSP.Update( );
-      buttonMP.Update( );
-      buttonHS.Update( );
-      buttonEX.Update( );
-
       
+      TextSP.Update( );
+      TextMP.Update( );
+      TextHS.Update( );
+      TextEX.Update( );
+      title.Update( );
     }
 
     internal void Draw(  )
@@ -87,12 +84,13 @@ namespace DnDCrawl
       game.spriteBatch.Begin( );
 
       game.spriteBatch.Draw( menubackground, menurec, Color.White );
-      game.spriteBatch.Draw( title, titlerec, Color.White );
 
-      buttonSP.Draw( game.spriteBatch );
-      buttonMP.Draw( game.spriteBatch );
-      buttonHS.Draw( game.spriteBatch );
-      buttonEX.Draw( game.spriteBatch );
+      title.Draw( game.spriteBatch );
+      TextSP.Draw( game.spriteBatch );
+      TextMP.Draw( game.spriteBatch );
+      TextHS.Draw( game.spriteBatch );
+      TextEX.Draw( game.spriteBatch );
+      title.Draw( game.spriteBatch );
 
       game.spriteBatch.End( );
     }

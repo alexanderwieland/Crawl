@@ -50,21 +50,20 @@ namespace MapGenerator
       this.type = type;
     }
 
-    public static Tile get_new_tile( TILE_TYPE type, int x, int y )
+    public static Tile Get_new_tile( TILE_TYPE type, int x, int y )
     {
       return new Tile( Generator.tiles[ type ][ TILE_ORIENTATION.CENTER ], Generator.tiles[ type ][ TILE_ORIENTATION.CENTER ], new Vector2( x * Global_Settings.tile_pixels, y * Global_Settings.tile_pixels ), type, TILE_ORIENTATION.CENTER );
     }
 
     public void Draw( SpriteBatch spriteBatch, int a, int b )
     {
-      Texture2D used_texture = null;
       Rectangle source_rect = Rectangle.Empty;
 
       if ( type == TILE_TYPE.NONE )
       {
         return;
       }
-      get_source( out used_texture, out source_rect );
+      this.Get_source( out Texture2D used_texture, out source_rect );
       spriteBatch.Draw( used_texture, position, source_rect, Color.White );
 
       if ( this.in_main_region )
@@ -74,14 +73,14 @@ namespace MapGenerator
       //spriteBatch.DrawString(sf, a + ", " + b, position, Color.Black);
     }
 
-    public void change_biom( TILE_TYPE type )
+    public void Change_biom( TILE_TYPE type )
     {
       this.texture_in = Generator.tiles[ type ][ TILE_ORIENTATION.CENTER ];
 
       this.type = type;
     }
 
-    private void get_source( out Texture2D used_texture, out Rectangle source_rect )
+    private void Get_source( out Texture2D used_texture, out Rectangle source_rect )
     {
       used_texture = texture_in;
 

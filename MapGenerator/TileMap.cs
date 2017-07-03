@@ -51,6 +51,100 @@ namespace MapGenerator
       }
     }
 
+    internal bool Check_n_Replace( Tile tile, int[,] fig, TILE_TYPE type )
+    {
+      // Geht es sich von den lengen her aus?
+      if ( tile.X_Position + fig.GetLength( 0 ) > this.Width || tile.Y_Position + fig.GetLength( 1 ) > this.Height )
+        return false;
+
+      // Matcht das erste Tile?
+      if ( tile.type != type )
+        return false;
+
+      // Match eines nicht?
+      for ( int i = 0; i < fig.GetLength( 0 ); i++ )
+      {
+        for ( int j = 0; j < fig.GetLength( 1 ); j++ )
+        {
+          if ( fig[ i, j ] == 0 && this.tiles[ tile.X_Position + i, tile.Y_Position + j ].type != TILE_TYPE.NONE )
+            return false;
+          if ( fig[ i, j ] == 1 && this.tiles[ tile.X_Position + i, tile.Y_Position + j ].type != type )
+            return false;
+          if ( fig[ i, j ] == 2 && this.tiles[ tile.X_Position + i, tile.Y_Position + j ].type != TILE_TYPE.NONE )
+            return false;
+          if ( fig[ i, j ] == 3 && this.tiles[ tile.X_Position + i, tile.Y_Position + j ].type != type  )
+            return false;
+
+          if ( fig[ i, j ] == 1 )//|| fig[ i, j ] == 3 )
+          {
+            // bei 1 und 3 muss i schaun ob die eh 2 freie haben
+            if ( this.Has_2_empty( this.tiles[ tile.X_Position + i, tile.Y_Position + j ] ) == false )
+            {
+              return false;
+            }
+          }
+        }
+      }
+
+      // Ersetzen
+      for ( int i = 0; i < fig.GetLength( 0 ); i++ )
+      {
+        for ( int j = 0; j < fig.GetLength( 1 ); j++ )
+        {
+          if ( fig[ i, j ] == 1 )
+          {
+            this.tiles[ tile.X_Position + i, tile.Y_Position + j ].Change_biom( TILE_TYPE.NONE );
+            this.tiles[ tile.X_Position + i, tile.Y_Position + j ].in_main_region = true;
+          }
+
+          if ( fig[ i, j ] == 2 )
+          {
+            this.tiles[ tile.X_Position + i, tile.Y_Position + j ].Change_biom( type );
+            //this.tiles[ tile.X_Position + i, tile.Y_Position + j ].in_main_region = true;
+          }
+
+          if ( fig[ i, j ] == 3 )
+          {
+            this.tiles[ tile.X_Position + i, tile.Y_Position + j ].in_main_region = false;
+          }
+
+        }
+      }
+
+      return true;
+    }
+
+
+    private bool Has_2_empty( Tile tile )
+    {
+
+      int empty_counter = 0;
+
+      if ( this.Is_down_free( tile ) )
+      {
+        empty_counter++;
+      }
+      if ( this.Is_left_free( tile ) )
+      {
+        empty_counter++;
+      }
+      if ( this.Is_right_free( tile ) )
+      {
+        empty_counter++;
+      }
+      if ( this.Is_up_free( tile ) )
+      {
+        empty_counter++;
+      }
+
+      if ( empty_counter == 2 )
+      {
+        return true;
+      }
+
+      return false;
+    }
+
     public Tile Search_for_tile( TILE_TYPE tile_type )
     {
       for ( int i = 0; i < this.tiles.GetLength( 0 ); i++ )
@@ -221,7 +315,7 @@ namespace MapGenerator
         {
           if ( map_to_add[ i, j ] != null )
           {
-            map_to_add[ i, j ].position = new Vector2( ( i + (int)startpos.X ) * Global_Settings.tile_pixels, ( j + (int)startpos.Y ) * Global_Settings.tile_pixels );
+            map_to_add[ i, j ].position = new Vector2( ( i + (int)startpos.X ), ( j + (int)startpos.Y ) );
             tiles[ i + (int)startpos.X, j + (int)startpos.Y ] = map_to_add[ i, j ];
           }
         }

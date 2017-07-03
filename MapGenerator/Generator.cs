@@ -76,6 +76,7 @@ namespace MapGenerator
       floodfiller.Init_flood_fill( map );
       roomconnector.Connect( map );
       floodfiller.Defill( map );
+      floodfiller.Straiten( map );
 
       return map;
     }

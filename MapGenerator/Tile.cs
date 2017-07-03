@@ -23,19 +23,19 @@ namespace MapGenerator
 
     public int X_Position_in_pixel
     {
-      get { return (int)position.X; }
+      get { return (int)position.X *  Global_Settings.tile_pixels; }
     }
     public int Y_Position_in_pixel
     {
-      get { return (int)position.Y; }
+      get { return (int)position.Y * Global_Settings.tile_pixels; }
     }
     public int X_Position
     {
-      get { return (int)position.X / Global_Settings.tile_pixels; }
+      get { return (int)position.X; }
     }
     public int Y_Position
     {
-      get { return (int)position.Y / Global_Settings.tile_pixels; }
+      get { return (int)position.Y ; }
     }
 
     public bool in_main_region = false;
@@ -50,9 +50,14 @@ namespace MapGenerator
       this.type = type;
     }
 
+    internal bool Position_matches( int[,] fig1, TILE_TYPE gRASS )
+    {
+      throw new NotImplementedException( );
+    }
+
     public static Tile Get_new_tile( TILE_TYPE type, int x, int y )
     {
-      return new Tile( Generator.tiles[ type ][ TILE_ORIENTATION.CENTER ], Generator.tiles[ type ][ TILE_ORIENTATION.CENTER ], new Vector2( x * Global_Settings.tile_pixels, y * Global_Settings.tile_pixels ), type, TILE_ORIENTATION.CENTER );
+      return new Tile( Generator.tiles[ type ][ TILE_ORIENTATION.CENTER ], Generator.tiles[ type ][ TILE_ORIENTATION.CENTER ], new Vector2( x , y ), type, TILE_ORIENTATION.CENTER );
     }
 
     public void Draw( SpriteBatch spriteBatch, int a, int b )
@@ -61,14 +66,15 @@ namespace MapGenerator
 
       if ( type == TILE_TYPE.NONE )
       {
-        return;
+        //return;
       }
       this.Get_source( out Texture2D used_texture, out source_rect );
-      spriteBatch.Draw( used_texture, position, source_rect, Color.White );
+      if ( used_texture != null )
+      spriteBatch.Draw( used_texture, new Vector2( this.X_Position_in_pixel, this.Y_Position_in_pixel ), source_rect, Color.White );
 
       if ( this.in_main_region )
       {
-        //spriteBatch.Draw( Generator.tiles[TILE_TYPE.MAIN_REGION][TILE_ORIENTATION.CENTER], position, source_rect, Color.White );
+        spriteBatch.Draw( Generator.tiles[TILE_TYPE.MAIN_REGION][TILE_ORIENTATION.CENTER], new Vector2( this.X_Position_in_pixel, this.Y_Position_in_pixel ), source_rect, Color.White );
       }
       //spriteBatch.DrawString(sf, a + ", " + b, position, Color.Black);
     }

@@ -31,17 +31,107 @@ namespace MapGenerator
     }
 
 
+    public void Straiten( TileMap map )
+    {
+      for ( int i = 0; i < map.tiles.GetLength( 0 ); i++ )
+      {
+        for ( int j = 0; j < map.tiles.GetLength( 1 ); j++ )
+        {
+          map.tiles[ i, j ].in_main_region = false;
+        }
+      }
+
+      // 0 = Empty   ->  Empty
+      // 1 = of type ->  Empty
+      // 2 = Empty   ->  to type
+      // 3 = of type ->  of type
+
+      List<int[,]> fig_list = new List<int[,]>
+      {
+        new int[,]
+        {
+          { 1,1,3 },
+          { 1,0,2 },
+          { 1,1,3 }
+        },
+        new int[,]
+        {
+          { 1,1,1 },
+          { 1,0,1 },
+          { 3,2,3 }
+        },
+        new int[,]
+        {
+          { 3,2,3 },
+          { 1,0,1 },
+          { 1,1,1 }
+        },
+        new int[,]
+        {
+          { 3,1,1 },
+          { 2,0,1 },
+          { 3,1,1 }
+        },
+        new int[,]
+        {
+          { 1,1,1,1,1 },
+          { 1,0,0,0,1 },
+          { 3,2,2,2,3 }
+        },
+        new int[,]
+        {
+          { 3,2,2,2,3 },
+          { 1,0,0,0,1 },
+          { 1,1,1,1,1 },
+        },
+        new int[,]
+        {
+          { 3,1,1 },
+          { 2,0,1 },
+          { 2,0,1 },
+          { 2,0,1 },
+          { 3,1,1 },
+        },
+        new int[,]
+        {
+          { 1,1,3 },
+          { 1,0,2 },
+          { 1,0,2 },
+          { 1,0,2 },
+          { 1,1,3 },
+        }
+      };
+
+      int did_something = 0;
+
+      do
+      {
+        did_something = 0;
+        for ( int i = 0; i < map.tiles.GetLength( 0 ); i++ )
+        {
+          for ( int j = 0; j < map.tiles.GetLength( 1 ); j++ )
+          {
+            foreach ( var fig in fig_list )
+            {
+              if ( map.Check_n_Replace( map.tiles[ i, j ], fig, TILE_TYPE.GRASS ) )
+                did_something++;
+            }
+          }
+        }
+      } while ( did_something > 2 );
+    }
+
     public void Defill( TileMap map  )
     {
-      while ( this.Get_next_3_empty( map ) )
+      Tile t;
+      while ( (t = this.Get_next_3_empty( map ) )!= null)
       {
-
+        t.Change_biom( TILE_TYPE.NONE );
       }
     }
 
-    private bool Get_next_3_empty( TileMap map )
+    private Tile Get_next_3_empty( TileMap map )
     {
-      bool i_ve_done_something = false;
       for ( int i = 0; i < map.tiles.GetLength( 0 ); i++ )
       {
         for ( int j = 0; j < map.tiles.GetLength( 1 ); j++ )
@@ -68,14 +158,50 @@ namespace MapGenerator
             }
 
             if ( empty_counter == 3 )
-            {
-              i_ve_done_something = true;
-              map.tiles[ i, j ].Change_biom( TILE_TYPE.NONE );
+            {              
+              return map.tiles[ i, j ];
             }
           }
         }
       }
-      return i_ve_done_something;
+      return null;
+    }
+
+    private Tile Has_2_of_type( TileMap map, TILE_TYPE tt )
+    {
+      for ( int i = 0; i < map.tiles.GetLength( 0 ); i++ )
+      {
+        for ( int j = 0; j < map.tiles.GetLength( 1 ); j++ )
+        {
+          if ( map.tiles[ i, j ].type == tt )
+          {
+            int empty_counter = 0;
+
+            if ( map.Is_down_free( map.tiles[ i, j ] ) )
+            {
+              empty_counter++;
+            }
+            if ( map.Is_left_free( map.tiles[ i, j ] ) )
+            {
+              empty_counter++;
+            }
+            if ( map.Is_right_free( map.tiles[ i, j ] ) )
+            {
+              empty_counter++;
+            }
+            if ( map.Is_up_free( map.tiles[ i, j ] ) )
+            {
+              empty_counter++;
+            }
+
+            if ( empty_counter == 3 )
+            {
+              return map.tiles[ i, j ];
+            }
+          }
+        }
+      }
+      return null;
     }
 
     public void Init_flood_fill( TileMap map  )
